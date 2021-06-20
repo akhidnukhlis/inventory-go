@@ -86,4 +86,34 @@ func StoreSupplier(supplierID string, supplierName string) (Response, error) {
 	return res, nil
 }
 
+func UpdateSupplier(id int, name string, price int) (Response, error) {
+	var res Response
+
+	con := db.CreateCon()
+
+	sqlStatement := "UPDATE supplier SET name = ?, price = ? WHERE id = ?"
+
+	stmt, err := con.Prepare(sqlStatement)
+	if err != nil {
+		return res, err
+	}
+
+	result, err := stmt.Exec(name, price, id)
+	if err != nil {
+		return res, err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return res, err
+	}
+
+	res.Status = http.StatusOK
+	res.Message = "Success"
+	res.Data = map[string]int64{
+		"rows_affected": rowsAffected,
+	}
+
+	return res, nil
+}
 

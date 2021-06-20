@@ -1,7 +1,7 @@
 {
-    "DB_USERNAME"   : "jzsglvgniylxif",
-    "DB_PASSWORD"   : "01c86563be8cd0f053f6c699fc37eaafadfa48df6b42c9891aaabd1ea5aa3f31",
-    "DB_PORT"       : "5432",
-    "DB_HOST"       : "ec2-35-169-188-58.compute-1.amazonaws.com",
-    "DB_NAME"       : "dccl0b8tn689ai"
+    "DB_USERNAME"   : "root",
+    "DB_PASSWORD"   : "password",
+    "DB_PORT"       : "3306",
+    "DB_HOST"       : "localhost",
+    "DB_NAME"       : "urban"
 }

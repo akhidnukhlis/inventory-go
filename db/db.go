@@ -2,7 +2,6 @@ package db
 
 import (
 	"database/sql"
-	"fmt"
 	"github.com/akhidnukhlis/config"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
@@ -16,13 +15,13 @@ func Init() {
 	conf := config.GetConfig()
 
 	// mysql connection setting
-	// connectionString := conf.DB_USERNAME + ":" + conf.DB_PASSWORD + "@tcp(" + conf.DB_HOST + ":" + conf.DB_PORT + ")/" + conf.DB_NAME + "?parseTime=true"
-	// db, err = sql.Open("mysql", connectionString)
+	connectionString := conf.DB_USERNAME + ":" + conf.DB_PASSWORD + "@tcp(" + conf.DB_HOST + ":" + conf.DB_PORT + ")/" + conf.DB_NAME + "?parseTime=true"
+	db, err = sql.Open("mysql", connectionString)
 
-	connectionPsql := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s", conf.DB_HOST, conf.DB_PORT, conf.DB_USERNAME, conf.DB_PASSWORD, conf.DB_NAME)
-
-	db, err := sql.Open("postgres", connectionPsql)
-	defer db.Close()
+	// postgresql connection setting
+	// connectionPsql := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s", conf.DB_HOST, conf.DB_PORT, conf.DB_USERNAME, conf.DB_PASSWORD, conf.DB_NAME)
+	// db, err := sql.Open("postgres", connectionPsql)
+	// defer db.Close()
 
 	if err != nil {
 		log.Println(err)
