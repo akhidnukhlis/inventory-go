@@ -8,10 +8,8 @@ import (
 	"time"
 )
 
-var layoutFormat = "2006-01-02 15:04:05"
-
-func FetchAllWarehouse(c echo.Context) error {
-	result, err := models.FetchAllWarehouse()
+func FetchAllSource(c echo.Context) error {
+	result, err := models.FetchAllSource()
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
@@ -19,16 +17,16 @@ func FetchAllWarehouse(c echo.Context) error {
 	return c.JSON(http.StatusOK, result)
 }
 
-func StoreWarehouse(c echo.Context) error {
-	WarehouseName	:= c.FormValue("warehouseName")
-	CreatedDate		:= c.FormValue("createdDate")
+func StoreSource(c echo.Context) error {
+	SourceName 		:= c.FormValue("sourceName")
+	CreatedDate 	:= c.FormValue("createdDate")
 
 	convCreatedDate, err := time.Parse(layoutFormat, CreatedDate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	result, err := models.StoreWarehouse(WarehouseName, convCreatedDate)
+	result, err := models.StoreSource(SourceName, convCreatedDate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
@@ -36,12 +34,12 @@ func StoreWarehouse(c echo.Context) error {
 	return c.JSON(http.StatusOK, result)
 }
 
-func UpdateWarehouse(c echo.Context) error {
-	WarehouseID 	:= c.FormValue("warehouseID")
-	WarehouseName 	:= c.FormValue("warehouseName")
+func UpdateSource(c echo.Context) error {
+	SourceID 		:= c.FormValue("sourceID")
+	SourceName 		:= c.FormValue("sourceName")
 	ModifiedDate 	:= c.FormValue("modifiedDate")
 
-	convWarehouseID, err := strconv.Atoi(WarehouseID)
+	convSourceID, err := strconv.Atoi(SourceID)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
@@ -51,7 +49,7 @@ func UpdateWarehouse(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	result, err := models.UpdateWarehouse(convWarehouseID, WarehouseName, convModifiedDate)
+	result, err := models.UpdateSource(convSourceID, SourceName, convModifiedDate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
@@ -59,15 +57,15 @@ func UpdateWarehouse(c echo.Context) error {
 	return c.JSON(http.StatusOK, result)
 }
 
-func DeleteWarehouse(c echo.Context) error {
-	WarehouseID := c.FormValue("warehouseID")
+func DeleteSource(c echo.Context) error {
+	SourceID := c.FormValue("sourceID")
 
-	convWarehouseID, err := strconv.Atoi(WarehouseID)
+	convSourceID, err := strconv.Atoi(SourceID)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	result, err := models.DeleteWarehouse(convWarehouseID)
+	result, err := models.DeleteSource(convSourceID)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}

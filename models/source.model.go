@@ -4,32 +4,33 @@ import (
 	"github.com/akhidnukhlis/db"
 	validator "github.com/go-playground/validator"
 	"net/http"
+	"time"
 )
 
-type Product struct {
-	Id      	int    	`json:"id"`
-	Name    	string 	`json:"name" validate:"required"`
-	Price    	int		`json:"price" validate:"required"`
+type Source struct {
+	SourceId      	int    		`json:"sourceId"`
+	SourceName    	string 		`json:"sourceName" validate:"required"`
+	CreatedDate    	time.Time	`json:"createdDate"`
+	ModifiedDate    time.Time	`json:"modifiedDate"`
 }
 
-func FetchAllProduct() (Response, error) {
-	var obj Product
-	var arrows []Product
+func FetchAllSource() (Response, error) {
+	var obj Source
+	var arrows []Source
 	var res Response
 
 	con := db.CreateCon()
 
-	sqlStatement := "SELECT * FROM product"
+	sqlStatement := "SELECT * FROM source"
 
 	rows, err := con.Query(sqlStatement)
 	defer rows.Close()
-
 	if err != nil {
 		return res, err
 	}
 
 	for rows.Next() {
-		err = rows.Scan(&obj.Id, &obj.Name, &obj.Price)
+		err = rows.Scan(&obj.SourceId, &obj.SourceName, &obj.CreatedDate, &obj.ModifiedDate)
 		if err != nil {
 			return res, err
 		}
@@ -44,31 +45,31 @@ func FetchAllProduct() (Response, error) {
 	return res, nil
 }
 
-func StoreProduct(name string, price int) (Response, error) {
+func StoreSource(sourceName string, createdDate time.Time) (Response, error) {
 	var res Response
 
 	v := validator.New()
 
-	prod := Product{
-		Name		: name,
-		Price		: price,
+	sou := Source{
+		SourceName		: sourceName,
+		CreatedDate		: createdDate,
 	}
 
-	err := v.Struct(prod)
+	err := v.Struct(sou)
 	if err != nil {
 		return res, err
 	}
 
 	con := db.CreateCon()
 
-	sqlStatement := "INSERT product (name, price) VALUES (?, ?)"
+	sqlStatement := "INSERT source (sourceName, createdDate) VALUES (?, ?)"
 
 	stmt, err := con.Prepare(sqlStatement)
 	if err != nil {
 		return res, err
 	}
 
-	result, err := stmt.Exec(name, price)
+	result, err := stmt.Exec(sourceName, createdDate)
 	if err != nil {
 		return res, err
 	}
@@ -87,19 +88,32 @@ func StoreProduct(name string, price int) (Response, error) {
 	return res, nil
 }
 
-func UpdateProduct(id int, name string, price int) (Response, error) {
+func UpdateSource(sourceID int, sourceName string, modifiedDate time.Time) (Response, error) {
 	var res Response
+
+	v := validator.New()
+
+	sou := Source{
+		SourceId		: sourceID,
+		SourceName		: sourceName,
+		ModifiedDate	: modifiedDate,
+	}
+
+	err := v.Struct(sou)
+	if err != nil {
+		return res, err
+	}
 
 	con := db.CreateCon()
 
-	sqlStatement := "UPDATE product SET name = ?, price = ? WHERE id = ?"
+	sqlStatement := "UPDATE source SET sourceName = ?, modifiedDate = ? WHERE sourceID = ?"
 
 	stmt, err := con.Prepare(sqlStatement)
 	if err != nil {
 		return res, err
 	}
 
-	result, err := stmt.Exec(name, price, id)
+	result, err := stmt.Exec(sourceName, modifiedDate, sourceID)
 	if err != nil {
 		return res, err
 	}
@@ -118,19 +132,19 @@ func UpdateProduct(id int, name string, price int) (Response, error) {
 	return res, nil
 }
 
-func DeleteProduct(id int) (Response, error) {
+func DeleteSource(sourceID int) (Response, error) {
 	var res Response
 
 	con := db.CreateCon()
 
-	sqlStatement := "DELETE FROM product WHERE id = ?"
+	sqlStatement := "DELETE FROM source WHERE sourceID = ?"
 
 	stmt, err := con.Prepare(sqlStatement)
 	if err != nil {
 		return res, err
 	}
 
-	result, err := stmt.Exec(id)
+	result, err := stmt.Exec(sourceID)
 	if err != nil {
 		return res, err
 	}

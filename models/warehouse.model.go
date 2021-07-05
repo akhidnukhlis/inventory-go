@@ -8,15 +8,15 @@ import (
 )
 
 type Warehouse struct {
-	WarehouseID      	int    			`json:"warehouseID"`
-	WarehouseName    	string 			`json:"warehouseName" validate:"required"`
-	CreatedDate    		time.Time		`json:"createdDate"`
-	ModifiedDate    	time.Time		`json:"modifiedDate"`
+	WarehouseID      	int    		`json:"warehouseID"`
+	WarehouseName    	string 		`json:"warehouseName" validate:"required"`
+	CreatedDate    		time.Time	`json:"createdDate"`
+	ModifiedDate    	time.Time	`json:"modifiedDate"`
 }
 
 func FetchAllWarehouse() (Response, error) {
 	var obj Warehouse
-	var arrobj []Warehouse
+	var arrows []Warehouse
 	var res Response
 
 	con := db.CreateCon()
@@ -35,12 +35,12 @@ func FetchAllWarehouse() (Response, error) {
 			return res, err
 		}
 
-		arrobj = append(arrobj, obj)
+		arrows = append(arrows, obj)
 	}
 
 	res.Status = http.StatusOK
 	res.Message = "Success"
-	res.Data = arrobj
+	res.Data = arrows
 
 	return res, nil
 }

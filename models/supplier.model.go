@@ -13,7 +13,7 @@ type Supplier struct {
 
 func FetchAllSupplier() (Response, error) {
 	var obj Supplier
-	var arrobj []Supplier
+	var arrows []Supplier
 	var res Response
 
 	con := db.CreateCon()
@@ -33,12 +33,12 @@ func FetchAllSupplier() (Response, error) {
 			return res, err
 		}
 
-		arrobj = append(arrobj, obj)
+		arrows = append(arrows, obj)
 	}
 
 	res.Status = http.StatusOK
 	res.Message = "Success"
-	res.Data = arrobj
+	res.Data = arrows
 
 	return res, nil
 }
@@ -86,19 +86,19 @@ func StoreSupplier(supplierID string, supplierName string) (Response, error) {
 	return res, nil
 }
 
-func UpdateSupplier(id int, name string, price int) (Response, error) {
+func UpdateSupplier(supplierID string, supplierName string) (Response, error) {
 	var res Response
 
 	con := db.CreateCon()
 
-	sqlStatement := "UPDATE supplier SET name = ?, price = ? WHERE id = ?"
+	sqlStatement := "UPDATE supplier SET supplierName = ? WHERE supplierID = ?"
 
 	stmt, err := con.Prepare(sqlStatement)
 	if err != nil {
 		return res, err
 	}
 
-	result, err := stmt.Exec(name, price, id)
+	result, err := stmt.Exec(supplierName, supplierID)
 	if err != nil {
 		return res, err
 	}
@@ -117,3 +117,33 @@ func UpdateSupplier(id int, name string, price int) (Response, error) {
 	return res, nil
 }
 
+func DeleteSupplier(supplierID string) (Response, error) {
+	var res Response
+
+	con := db.CreateCon()
+
+	sqlStatement := "DELETE FROM supplier WHERE supplierID = ?"
+
+	stmt, err := con.Prepare(sqlStatement)
+	if err != nil {
+		return res, err
+	}
+
+	result, err := stmt.Exec(supplierID)
+	if err != nil {
+		return res, err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return res, err
+	}
+
+	res.Status = http.StatusOK
+	res.Message = "Success"
+	res.Data = map[string]int64{
+		"rows_affected": rowsAffected,
+	}
+
+	return res, nil
+}

@@ -46,3 +46,26 @@ func StoreSupplier(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, result)
 }
+
+func UpdateSupplier(c echo.Context) error {
+	supplierID := c.FormValue("suppierID")
+	supplierName := c.FormValue("supplierName")
+
+	result, err := models.UpdateSupplier(supplierID, supplierName)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, result)
+}
+
+func DeleteSupplier(c echo.Context) error {
+	supplierID := c.FormValue("supplierID")
+
+	result, err := models.DeleteSupplier(supplierID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, result)
+}

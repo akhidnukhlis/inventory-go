@@ -4,14 +4,11 @@ import (
 	"github.com/akhidnukhlis/models"
 	"github.com/labstack/echo"
 	"net/http"
-	"strconv"
 	"time"
 )
 
-var layoutFormat = "2006-01-02 15:04:05"
-
-func FetchAllWarehouse(c echo.Context) error {
-	result, err := models.FetchAllWarehouse()
+func FetchAllRole(c echo.Context) error {
+	result, err := models.FetchAllRole()
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
@@ -19,16 +16,18 @@ func FetchAllWarehouse(c echo.Context) error {
 	return c.JSON(http.StatusOK, result)
 }
 
-func StoreWarehouse(c echo.Context) error {
-	WarehouseName	:= c.FormValue("warehouseName")
-	CreatedDate		:= c.FormValue("createdDate")
+func StoreRole(c echo.Context) error {
+	RoleCode 		:= c.FormValue("roleCode")
+	RoleName 		:= c.FormValue("roleName")
+	RoleDesc 		:= c.FormValue("roleDesc")
+	CreatedDate 	:= c.FormValue("createdDate")
 
 	convCreatedDate, err := time.Parse(layoutFormat, CreatedDate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	result, err := models.StoreWarehouse(WarehouseName, convCreatedDate)
+	result, err := models.StoreRole(RoleCode, RoleName, RoleDesc, convCreatedDate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
@@ -36,22 +35,18 @@ func StoreWarehouse(c echo.Context) error {
 	return c.JSON(http.StatusOK, result)
 }
 
-func UpdateWarehouse(c echo.Context) error {
-	WarehouseID 	:= c.FormValue("warehouseID")
-	WarehouseName 	:= c.FormValue("warehouseName")
+func UpdateRole(c echo.Context) error {
+	RoleCode 		:= c.FormValue("roleCode")
+	RoleName 		:= c.FormValue("roleName")
+	RoleDesc 		:= c.FormValue("roleDesc")
 	ModifiedDate 	:= c.FormValue("modifiedDate")
-
-	convWarehouseID, err := strconv.Atoi(WarehouseID)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
-	}
 
 	convModifiedDate, err := time.Parse(layoutFormat, ModifiedDate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	result, err := models.UpdateWarehouse(convWarehouseID, WarehouseName, convModifiedDate)
+	result, err := models.UpdateRole(RoleCode, RoleName, RoleDesc, convModifiedDate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
@@ -59,15 +54,10 @@ func UpdateWarehouse(c echo.Context) error {
 	return c.JSON(http.StatusOK, result)
 }
 
-func DeleteWarehouse(c echo.Context) error {
-	WarehouseID := c.FormValue("warehouseID")
+func DeleteRole(c echo.Context) error {
+	RoleCode := c.FormValue("roleCode")
 
-	convWarehouseID, err := strconv.Atoi(WarehouseID)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
-	}
-
-	result, err := models.DeleteWarehouse(convWarehouseID)
+	result, err := models.DeleteRole(RoleCode)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}

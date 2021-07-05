@@ -4,32 +4,33 @@ import (
 	"github.com/akhidnukhlis/db"
 	validator "github.com/go-playground/validator"
 	"net/http"
+	"time"
 )
 
-type Product struct {
-	Id      	int    	`json:"id"`
-	Name    	string 	`json:"name" validate:"required"`
-	Price    	int		`json:"price" validate:"required"`
+type Category struct {
+	CategoryCode      	string    	`json:"categoryCode" validate:"required"`
+	CategoryName    	string 		`json:"categoryName" validate:"required"`
+	CreatedDate    		time.Time	`json:"createdDate"`
+	ModifiedDate    	time.Time	`json:"modifiedDate"`
 }
 
-func FetchAllProduct() (Response, error) {
-	var obj Product
-	var arrows []Product
+func FetchAllCategory() (Response, error) {
+	var obj Category
+	var arrows []Category
 	var res Response
 
 	con := db.CreateCon()
 
-	sqlStatement := "SELECT * FROM product"
+	sqlStatement := "SELECT * FROM category"
 
 	rows, err := con.Query(sqlStatement)
 	defer rows.Close()
-
 	if err != nil {
 		return res, err
 	}
 
 	for rows.Next() {
-		err = rows.Scan(&obj.Id, &obj.Name, &obj.Price)
+		err = rows.Scan(&obj.CategoryCode, &obj.CategoryName, &obj.CreatedDate, &obj.ModifiedDate)
 		if err != nil {
 			return res, err
 		}
@@ -44,31 +45,32 @@ func FetchAllProduct() (Response, error) {
 	return res, nil
 }
 
-func StoreProduct(name string, price int) (Response, error) {
+func StoreCategory(categoryCode string, categoryName string, createdDate time.Time) (Response, error) {
 	var res Response
 
 	v := validator.New()
 
-	prod := Product{
-		Name		: name,
-		Price		: price,
+	cate := Category{
+		CategoryCode		: categoryCode,
+		CategoryName		: categoryName,
+		CreatedDate			: createdDate,
 	}
 
-	err := v.Struct(prod)
+	err := v.Struct(cate)
 	if err != nil {
 		return res, err
 	}
 
 	con := db.CreateCon()
 
-	sqlStatement := "INSERT product (name, price) VALUES (?, ?)"
+	sqlStatement := "INSERT category (categoryCode, categoryName, createdDate) VALUES (?, ?, ?)"
 
 	stmt, err := con.Prepare(sqlStatement)
 	if err != nil {
 		return res, err
 	}
 
-	result, err := stmt.Exec(name, price)
+	result, err := stmt.Exec(categoryCode, categoryName, createdDate)
 	if err != nil {
 		return res, err
 	}
@@ -87,19 +89,32 @@ func StoreProduct(name string, price int) (Response, error) {
 	return res, nil
 }
 
-func UpdateProduct(id int, name string, price int) (Response, error) {
+func UpdateCategory(categoryCode string, categoryName string, modifiedDate time.Time) (Response, error) {
 	var res Response
+
+	v := validator.New()
+
+	cate := Category{
+		CategoryCode		: categoryCode,
+		CategoryName		: categoryName,
+		ModifiedDate		: modifiedDate,
+	}
+
+	err := v.Struct(cate)
+	if err != nil {
+		return res, err
+	}
 
 	con := db.CreateCon()
 
-	sqlStatement := "UPDATE product SET name = ?, price = ? WHERE id = ?"
+	sqlStatement := "UPDATE role SET categoryName = ?, modifiedDate = ? WHERE categoryCode = ?"
 
 	stmt, err := con.Prepare(sqlStatement)
 	if err != nil {
 		return res, err
 	}
 
-	result, err := stmt.Exec(name, price, id)
+	result, err := stmt.Exec(categoryName, modifiedDate, categoryCode)
 	if err != nil {
 		return res, err
 	}
@@ -118,19 +133,19 @@ func UpdateProduct(id int, name string, price int) (Response, error) {
 	return res, nil
 }
 
-func DeleteProduct(id int) (Response, error) {
+func DeleteCategory(categoryCode string) (Response, error) {
 	var res Response
 
 	con := db.CreateCon()
 
-	sqlStatement := "DELETE FROM product WHERE id = ?"
+	sqlStatement := "DELETE FROM category WHERE categoryCode = ?"
 
 	stmt, err := con.Prepare(sqlStatement)
 	if err != nil {
 		return res, err
 	}
 
-	result, err := stmt.Exec(id)
+	result, err := stmt.Exec(categoryCode)
 	if err != nil {
 		return res, err
 	}
