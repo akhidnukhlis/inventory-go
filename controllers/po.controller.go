@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"database/sql"
-	"github.com/akhidnukhlis/models"
+	"inventory-go/models"
 	"github.com/labstack/echo"
 	"net/http"
 	"strconv"

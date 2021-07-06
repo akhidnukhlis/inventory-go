@@ -2,8 +2,8 @@ package models
 
 import (
 	"database/sql"
-	"github.com/akhidnukhlis/db"
 	validator "github.com/go-playground/validator"
+	"inventory-go/db"
 	"net/http"
 	"time"
 )

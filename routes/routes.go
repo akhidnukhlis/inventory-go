@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"github.com/akhidnukhlis/controllers"
-	"github.com/akhidnukhlis/middleware"
 	"github.com/labstack/echo"
+	"inventory-go/controllers"
+	"inventory-go/middleware"
 	"net/http"
 )
 
@@ -70,11 +70,11 @@ func Init() *echo.Echo {
 
 	// api data audit info
 	e.GET("/api/auditing", controllers.FetchAllAuditing, middleware.IsAuthenticated)
-	e.GET("/api/auditing", controllers.StoreAuditing, middleware.IsAuthenticated)
+	e.POST("/api/auditing", controllers.StoreAuditing, middleware.IsAuthenticated)
 
 	// api data audit
 	e.GET("/api/audit", controllers.FetchAllAudit, middleware.IsAuthenticated)
-	e.GET("/api/audit", controllers.StoreAudit, middleware.IsAuthenticated)
+	e.POST("/api/audit", controllers.StoreAudit, middleware.IsAuthenticated)
 
 	// api hash & login
 	e.GET("/api/generate-hash/:password", controllers.GenerateHashPassword)

@@ -4,10 +4,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/akhidnukhlis/helpers"
-	"github.com/akhidnukhlis/models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo"
+	"inventory-go/helpers"
+	"inventory-go/models"
 )
 
 func CheckLogin(c echo.Context) error {

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/akhidnukhlis/helpers"
+	"inventory-go/helpers"
 
-	"github.com/akhidnukhlis/db"
+	"inventory-go/db"
 )
 
 type Users struct {

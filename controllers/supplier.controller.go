@@ -5,11 +5,13 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/akhidnukhlis/models"
 	"github.com/labstack/echo"
+	"inventory-go/models"
 )
 
-//var layoutFormat = "2006-01-02 15:04:05"
+func buildFileName() string {
+	return time.Now().Format("200601021504")
+}
 
 func FetchAllSupplier(c echo.Context) error {
 	result, err := models.FetchAllSupplier()
@@ -21,17 +23,10 @@ func FetchAllSupplier(c echo.Context) error {
 }
 
 func StoreSupplier(c echo.Context) error {
-	SupplierID := time.Now()
+	SupplierID := fmt.Sprint("SUP", buildFileName())
 	SupplierName := c.FormValue("supplierName")
 
-	convSupplierID, err := fmt.Println(SupplierID.Format("2006-01-02 15:04:05"))
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
-	}
-
-	cSID := fmt.Sprint("SUP", convSupplierID)
-
-	result, err := models.StoreSupplier(string(cSID), SupplierName)
+	result, err := models.StoreSupplier(SupplierID, SupplierName)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
@@ -40,7 +35,7 @@ func StoreSupplier(c echo.Context) error {
 }
 
 func UpdateSupplier(c echo.Context) error {
-	supplierID := c.FormValue("suppierID")
+	supplierID := c.FormValue("supplierID")
 	supplierName := c.FormValue("supplierName")
 
 	result, err := models.UpdateSupplier(supplierID, supplierName)

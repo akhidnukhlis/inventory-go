@@ -119,7 +119,7 @@ This is an example of how to list things you need to use the software and how to
 1. Get a free API Key at [https://example.com](https://example.com)
 2. Clone the repo
    ```sh
-   git clone https://github.com/akhidnukhlis/inventory-go.git
+   git clone https://inventory-go/inventory-go.git
    ```
 3. Install NPM packages
    ```sh
@@ -173,13 +173,13 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Your Name - [@akhidnukhlis](https://linkedin.com/akhidnukhlis) - nukhlis@gmail.com.com
 
-Project Link: [https://github.com/akhidnukhlis/inventory-go](https://github.com/akhidnukhlis/inventory-go)
+Project Link: [https://inventory-go/inventory-go](https://inventory-go/inventory-go)
 
 
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
-* [GitHub Emoji Cheat Sheet](https://github.com/akhidnukhlis/inventory-go)
+* [GitHub Emoji Cheat Sheet](https://inventory-go/inventory-go)
 
 
 

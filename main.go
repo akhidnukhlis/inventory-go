@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/akhidnukhlis/db"
-	"github.com/akhidnukhlis/routes"
+	"inventory-go/db"
+	"inventory-go/routes"
 	"log"
 )
 

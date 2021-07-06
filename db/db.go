@@ -2,9 +2,9 @@ package db
 
 import (
 	"database/sql"
-	"github.com/akhidnukhlis/config"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
+	"inventory-go/config"
 	"log"
 )
 

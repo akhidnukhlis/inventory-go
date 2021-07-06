@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/akhidnukhlis/db"
+	"inventory-go/db"
 	validator "github.com/go-playground/validator"
 	"net/http"
 )

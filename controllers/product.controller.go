@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"github.com/akhidnukhlis/models"
 	"github.com/labstack/echo"
+	"inventory-go/models"
 	"net/http"
 	"strconv"
 )
