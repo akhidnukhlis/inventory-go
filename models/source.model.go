@@ -1,14 +1,14 @@
 package models
 
 import (
-	"inventory-go/db"
 	validator "github.com/go-playground/validator"
+	"inventory-go/db"
 	"net/http"
 	"time"
 )
 
 type Source struct {
-	SourceId      	int    		`json:"sourceId"`
+	SourceID      	int    		`json:"sourceID"`
 	SourceName    	string 		`json:"sourceName" validate:"required"`
 	CreatedDate    	time.Time	`json:"createdDate"`
 	ModifiedDate    time.Time	`json:"modifiedDate"`
@@ -30,7 +30,7 @@ func FetchAllSource() (Response, error) {
 	}
 
 	for rows.Next() {
-		err = rows.Scan(&obj.SourceId, &obj.SourceName, &obj.CreatedDate, &obj.ModifiedDate)
+		err = rows.Scan(&obj.SourceID, &obj.SourceName, &obj.CreatedDate, &obj.ModifiedDate)
 		if err != nil {
 			return res, err
 		}
@@ -94,7 +94,7 @@ func UpdateSource(sourceID int, sourceName string, modifiedDate time.Time) (Resp
 	v := validator.New()
 
 	sou := Source{
-		SourceId		: sourceID,
+		SourceID		: sourceID,
 		SourceName		: sourceName,
 		ModifiedDate	: modifiedDate,
 	}

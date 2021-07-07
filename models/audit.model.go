@@ -8,7 +8,7 @@ import (
 )
 
 type Audit struct {
-	AuditID      		int    		`json:"auditID" validate:"required"`
+	AuditID      		int    		`json:"auditID"`
 	CreatedDate    		time.Time	`json:"createdDate"`
 	Auditor    			int 		`json:"auditor" validate:"required"`
 }
@@ -44,13 +44,12 @@ func FetchAllAudit() (Response, error) {
 	return res, nil
 }
 
-func StoreAudit(auditID int, createdDate time.Time, auditor int) (Response, error) {
+func StoreAudit(createdDate time.Time, auditor int) (Response, error) {
 	var res Response
 
 	v := validator.New()
 
 	audit := Audit{
-		AuditID			: auditID,
 		CreatedDate		: createdDate,
 		Auditor			: auditor,
 	}
@@ -62,14 +61,14 @@ func StoreAudit(auditID int, createdDate time.Time, auditor int) (Response, erro
 
 	con := db.CreateCon()
 
-	sqlStatement := "INSERT audit (auditID, createdDate, auditor) VALUES (?, ?, ?)"
+	sqlStatement := "INSERT audit (createdDate, auditor) VALUES (?, ?)"
 
 	stmt, err := con.Prepare(sqlStatement)
 	if err != nil {
 		return res, err
 	}
 
-	result, err := stmt.Exec(auditID, createdDate, auditor)
+	result, err := stmt.Exec(createdDate, auditor)
 	if err != nil {
 		return res, err
 	}

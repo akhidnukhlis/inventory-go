@@ -2,13 +2,12 @@ package controllers
 
 import (
 	"github.com/labstack/echo"
+	"inventory-go/helpers"
 	"inventory-go/models"
 	"net/http"
 	"strconv"
 	"time"
 )
-
-var layoutFormat = "2006-01-02 15:04:05"
 
 func FetchAllWarehouse(c echo.Context) error {
 	result, err := models.FetchAllWarehouse()
@@ -21,9 +20,9 @@ func FetchAllWarehouse(c echo.Context) error {
 
 func StoreWarehouse(c echo.Context) error {
 	WarehouseName	:= c.FormValue("warehouseName")
-	CreatedDate		:= c.FormValue("createdDate")
+	CreatedDate		:= helpers.BuildTime()
 
-	convCreatedDate, err := time.Parse(layoutFormat, CreatedDate)
+	convCreatedDate, err := time.Parse(helpers.LayoutFormat(), CreatedDate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
@@ -39,14 +38,14 @@ func StoreWarehouse(c echo.Context) error {
 func UpdateWarehouse(c echo.Context) error {
 	WarehouseID 	:= c.FormValue("warehouseID")
 	WarehouseName 	:= c.FormValue("warehouseName")
-	ModifiedDate 	:= c.FormValue("modifiedDate")
+	ModifiedDate 	:= helpers.BuildTime()
 
 	convWarehouseID, err := strconv.Atoi(WarehouseID)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	convModifiedDate, err := time.Parse(layoutFormat, ModifiedDate)
+	convModifiedDate, err := time.Parse(helpers.LayoutFormat(), ModifiedDate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}

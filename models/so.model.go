@@ -1,8 +1,8 @@
 package models
 
 import (
-	"inventory-go/db"
 	validator "github.com/go-playground/validator"
+	"inventory-go/db"
 	"net/http"
 	"time"
 )
@@ -145,8 +145,7 @@ func UpdateSo(goodsCode string, userCreated int, sourceID int, customer string, 
 	con := db.CreateCon()
 
 	sqlStatement := "UPDATE so SET goodsCode = ?, userCreated = ?, sourceID = ?, customer = ?, soQty = ?, currency = ?," +
-					"unitPrice = ?, totalPrice = ?, courier = ?, deliveryCharge = ?, status = ?, modifiedDate = ?)" +
-					"WHERE soCode = ?"
+					"unitPrice = ?, totalPrice = ?, courier = ?, deliveryCharge = ?, status = ?, modifiedDate = ? WHERE soCode = ?"
 
 	stmt, err := con.Prepare(sqlStatement)
 	if err != nil {

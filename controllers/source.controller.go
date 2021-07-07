@@ -1,8 +1,9 @@
 package controllers
 
 import (
-	"inventory-go/models"
 	"github.com/labstack/echo"
+	"inventory-go/helpers"
+	"inventory-go/models"
 	"net/http"
 	"strconv"
 	"time"
@@ -19,9 +20,9 @@ func FetchAllSource(c echo.Context) error {
 
 func StoreSource(c echo.Context) error {
 	SourceName 		:= c.FormValue("sourceName")
-	CreatedDate 	:= c.FormValue("createdDate")
+	CreatedDate 	:= helpers.BuildTime()
 
-	convCreatedDate, err := time.Parse(layoutFormat, CreatedDate)
+	convCreatedDate, err := time.Parse(helpers.LayoutFormat(), CreatedDate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
@@ -37,14 +38,14 @@ func StoreSource(c echo.Context) error {
 func UpdateSource(c echo.Context) error {
 	SourceID 		:= c.FormValue("sourceID")
 	SourceName 		:= c.FormValue("sourceName")
-	ModifiedDate 	:= c.FormValue("modifiedDate")
+	ModifiedDate 	:= helpers.BuildTime()
 
 	convSourceID, err := strconv.Atoi(SourceID)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	convModifiedDate, err := time.Parse(layoutFormat, ModifiedDate)
+	convModifiedDate, err := time.Parse(helpers.LayoutFormat(), ModifiedDate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}

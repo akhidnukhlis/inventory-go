@@ -1,13 +1,13 @@
 package models
 
 import (
-	"inventory-go/db"
 	validator "github.com/go-playground/validator"
+	"inventory-go/db"
 	"net/http"
 )
 
 type Auditing struct {
-	AuditInfoID      	int    		`json:"auditInfoID" validate:"required"`
+	AuditInfoID      	int    		`json:"auditInfoID"`
 	AuditID    			int 		`json:"auditID" validate:"required"`
 	GoodsCode    		string 		`json:"goodsCode" validate:"required"`
 	SysStock    		int 		`json:"sysStock" validate:"required"`
@@ -46,13 +46,12 @@ func FetchAllAuditing() (Response, error) {
 	return res, nil
 }
 
-func StoreAuditing(auditInfoID int, auditID int, goodsCode string, sysStock int, realStock int, note string) (Response, error) {
+func StoreAuditing(auditID int, goodsCode string, sysStock int, realStock int, note string) (Response, error) {
 	var res Response
 
 	v := validator.New()
 
 	audi := Auditing{
-		AuditInfoID		: auditInfoID,
 		AuditID			: auditID,
 		GoodsCode		: goodsCode,
 		SysStock		: sysStock,
@@ -67,14 +66,14 @@ func StoreAuditing(auditInfoID int, auditID int, goodsCode string, sysStock int,
 
 	con := db.CreateCon()
 
-	sqlStatement := "INSERT role (auditInfoID, auditID, goodsCode, sysStock, realStock, note) VALUES (?, ?, ?, ?, ?, ?)"
+	sqlStatement := "INSERT auditinfo (auditID, goodsCode, sysStock, realStock, note) VALUES (?, ?, ?, ?, ?)"
 
 	stmt, err := con.Prepare(sqlStatement)
 	if err != nil {
 		return res, err
 	}
 
-	result, err := stmt.Exec(auditInfoID, auditID, goodsCode, sysStock, realStock, note)
+	result, err := stmt.Exec(auditID, goodsCode, sysStock, realStock, note)
 	if err != nil {
 		return res, err
 	}

@@ -1,8 +1,8 @@
 package models
 
 import (
-	"inventory-go/db"
 	validator "github.com/go-playground/validator"
+	"inventory-go/db"
 	"net/http"
 	"time"
 )
@@ -11,7 +11,7 @@ type Goods struct {
 	GoodsCode      		string    	`json:"goodsCode" validate:"required"`
 	CategoryCode    	string 		`json:"categoryCode" validate:"required"`
 	GoodsName    		string 		`json:"goodsName" validate:"required"`
-	GoodsLowesPrice    	int 		`json:"goodsLowesPrice" validate:"required"`
+	goodsLowestPrice    	int 		`json:"goodsLowestPrice" validate:"required"`
 	GoodsRetailPrice    int 		`json:"goodsRetailPrice" validate:"required"`
 	WarehouseID    		int 		`json:"warehouseID" validate:"required"`
 	ProcStaffID    		int			`json:"procStaffID" validate:"required"`
@@ -36,7 +36,7 @@ func FetchAllGoods() (Response, error) {
 	}
 
 	for rows.Next() {
-		err = rows.Scan(&obj.GoodsCode, &obj.CategoryCode, &obj.GoodsName, &obj.GoodsLowesPrice, &obj.GoodsRetailPrice,
+		err = rows.Scan(&obj.GoodsCode, &obj.CategoryCode, &obj.GoodsName, &obj.goodsLowestPrice, &obj.GoodsRetailPrice,
 			&obj.WarehouseID, &obj.ProcStaffID, &obj.ProcMgrID, &obj.CreatedDate, &obj.ModifiedDate)
 		if err != nil {
 			return res, err
@@ -52,7 +52,7 @@ func FetchAllGoods() (Response, error) {
 	return res, nil
 }
 
-func StoreGoods(goodsCode string, categoryCode string, goodsName string, goodsLowesPrice int,
+func StoreGoods(goodsCode string, categoryCode string, goodsName string, goodsLowestPrice int,
 				goodsRetailPrice int, warehouseID int, procStaffID int, procMgrID int,
 				createdDate time.Time) (Response, error) {
 	var res Response
@@ -63,7 +63,7 @@ func StoreGoods(goodsCode string, categoryCode string, goodsName string, goodsLo
 		GoodsCode				: goodsCode,
 		CategoryCode			: categoryCode,
 		GoodsName				: goodsName,
-		GoodsLowesPrice			: goodsLowesPrice,
+		goodsLowestPrice		: goodsLowestPrice,
 		GoodsRetailPrice		: goodsRetailPrice,
 		WarehouseID				: warehouseID,
 		ProcStaffID				: procStaffID,
@@ -78,7 +78,7 @@ func StoreGoods(goodsCode string, categoryCode string, goodsName string, goodsLo
 
 	con := db.CreateCon()
 
-	sqlStatement := "INSERT goods (goodsCode, categoryCode, goodsName, goodsLowesPrice," +
+	sqlStatement := "INSERT goods (goodsCode, categoryCode, goodsName, goodsLowestPrice," +
 					"goodsRetailPrice, warehouseID, procStaffID, procMgrID, createdDate" +
 					") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
@@ -87,7 +87,7 @@ func StoreGoods(goodsCode string, categoryCode string, goodsName string, goodsLo
 		return res, err
 	}
 
-	result, err := stmt.Exec(goodsCode, categoryCode, goodsName, goodsLowesPrice, goodsRetailPrice,
+	result, err := stmt.Exec(goodsCode, categoryCode, goodsName, goodsLowestPrice, goodsRetailPrice,
 							 warehouseID, procStaffID, procMgrID, createdDate)
 	if err != nil {
 		return res, err
@@ -107,7 +107,7 @@ func StoreGoods(goodsCode string, categoryCode string, goodsName string, goodsLo
 	return res, nil
 }
 
-func UpdateGoods(goodsCode string, categoryCode string, goodsName string, goodsLowesPrice int,
+func UpdateGoods(goodsCode string, categoryCode string, goodsName string, goodsLowestPrice int,
 				 goodsRetailPrice int, warehouseID int, procStaffID int, procMgrID int,
 				 modifiedDate time.Time) (Response, error) {
 	var res Response
@@ -118,7 +118,7 @@ func UpdateGoods(goodsCode string, categoryCode string, goodsName string, goodsL
 		GoodsCode				: goodsCode,
 		CategoryCode			: categoryCode,
 		GoodsName				: goodsName,
-		GoodsLowesPrice			: goodsLowesPrice,
+		goodsLowestPrice			: goodsLowestPrice,
 		GoodsRetailPrice		: goodsRetailPrice,
 		WarehouseID				: warehouseID,
 		ProcStaffID				: procStaffID,
@@ -133,7 +133,7 @@ func UpdateGoods(goodsCode string, categoryCode string, goodsName string, goodsL
 
 	con := db.CreateCon()
 
-	sqlStatement := "UPDATE goods SET categoryCode = ?, goodsName = ?, goodsLowesPrice = ?," +
+	sqlStatement := "UPDATE goods SET categoryCode = ?, goodsName = ?, goodsLowestPrice = ?," +
 					"goodsRetailPrice = ?, warehouseID = ?, procStaffID = ?, procMgrID = ?," +
 					"modifiedDate = ? WHERE goodsCode = ?"
 
@@ -142,7 +142,7 @@ func UpdateGoods(goodsCode string, categoryCode string, goodsName string, goodsL
 		return res, err
 	}
 
-	result, err := stmt.Exec(categoryCode, goodsName, goodsLowesPrice, goodsRetailPrice,
+	result, err := stmt.Exec(categoryCode, goodsName, goodsLowestPrice, goodsRetailPrice,
 							 warehouseID, procStaffID, procMgrID, modifiedDate, goodsCode)
 	if err != nil {
 		return res, err

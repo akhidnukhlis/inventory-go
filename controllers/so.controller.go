@@ -1,8 +1,10 @@
 package controllers
 
 import (
-	"inventory-go/models"
+	"fmt"
 	"github.com/labstack/echo"
+	"inventory-go/helpers"
+	"inventory-go/models"
 	"net/http"
 	"strconv"
 	"time"
@@ -18,7 +20,7 @@ func FetchAllSo(c echo.Context) error {
 }
 
 func StoreSo(c echo.Context) error {
-	SoCode 				:= c.FormValue("soCode")
+	SoCode 				:= fmt.Sprint("SO-", helpers.BuildFileName())
 	GoodsCode 			:= c.FormValue("goodsCode")
 	UserCreated 		:= c.FormValue("userCreated")
 	SourceID 			:= c.FormValue("sourceID")
@@ -30,7 +32,7 @@ func StoreSo(c echo.Context) error {
 	Courier 			:= c.FormValue("courier")
 	DeliveryCharge 		:= c.FormValue("deliveryCharge")
 	Status 				:= c.FormValue("status")
-	CreatedDate 		:= c.FormValue("createdDate")
+	CreatedDate 		:= helpers.BuildTime()
 
 	// convert string to int
 	convUserCreated, err := strconv.Atoi(UserCreated)
@@ -64,7 +66,7 @@ func StoreSo(c echo.Context) error {
 	}
 
 	// convert string to date
-	convCreatedDate, err := time.Parse(layoutFormat, CreatedDate)
+	convCreatedDate, err := time.Parse(helpers.LayoutFormat(), CreatedDate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
@@ -91,7 +93,7 @@ func UpdateSo(c echo.Context) error {
 	Courier 			:= c.FormValue("courier")
 	DeliveryCharge 		:= c.FormValue("deliveryCharge")
 	Status 				:= c.FormValue("status")
-	ModifiedDate 		:= c.FormValue("modifiedDate")
+	ModifiedDate 		:= helpers.BuildTime()
 
 	// convert string to int
 	convUserCreated, err := strconv.Atoi(UserCreated)
@@ -125,7 +127,7 @@ func UpdateSo(c echo.Context) error {
 	}
 
 	// convert string to date
-	convModifiedDate, err := time.Parse(layoutFormat, ModifiedDate)
+	convModifiedDate, err := time.Parse(helpers.LayoutFormat(), ModifiedDate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}

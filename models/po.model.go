@@ -9,7 +9,7 @@ import (
 )
 
 type Po struct {
-	PoCode      		string    			`json:"poCode" validate:"required"`
+	PoCode      		string    			`json:"poCode"`
 	GoodsCode    		string 				`json:"goodsCode" validate:"required"`
 	SupplierCode    	string 				`json:"supplierCode" validate:"required"`
 	UserCreated    		int 				`json:"userCreated" validate:"required"`

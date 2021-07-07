@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/labstack/echo"
+	"inventory-go/helpers"
 	"inventory-go/models"
 	"net/http"
 	"strconv"
@@ -18,28 +19,22 @@ func FetchAllAudit(c echo.Context) error {
 }
 
 func StoreAudit(c echo.Context) error {
-	AuditID 			:= c.FormValue("auditID")
-	CreatedDate 		:= c.FormValue("createdDate")
+	CreatedDate 		:= helpers.BuildTime()
 	Auditor 			:= c.FormValue("auditor")
 
-	// convert string to int
-	convAuditID, err := strconv.Atoi(AuditID)
+	// convert string to date
+	convCreatedDate, err := time.Parse(helpers.LayoutFormat(), CreatedDate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
+	// convert string to int
 	convAuditor, err := strconv.Atoi(Auditor)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	// convert string to date
-	convCreatedDate, err := time.Parse(layoutFormat, CreatedDate)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
-	}
-
-	result, err := models.StoreAudit(convAuditID, convCreatedDate, convAuditor)
+	result, err := models.StoreAudit(convCreatedDate, convAuditor)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}

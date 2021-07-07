@@ -1,8 +1,9 @@
 package controllers
 
 import (
-	"inventory-go/models"
 	"github.com/labstack/echo"
+	"inventory-go/helpers"
+	"inventory-go/models"
 	"net/http"
 	"time"
 )
@@ -19,9 +20,9 @@ func FetchAllCategory(c echo.Context) error {
 func StoreCategory(c echo.Context) error {
 	CategoryCode 		:= c.FormValue("categoryCode")
 	CategoryName 		:= c.FormValue("categoryName")
-	CreatedDate 		:= c.FormValue("createdDate")
+	CreatedDate 		:= helpers.BuildTime()
 
-	convCreatedDate, err := time.Parse(layoutFormat, CreatedDate)
+	convCreatedDate, err := time.Parse(helpers.LayoutFormat(), CreatedDate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
@@ -37,9 +38,9 @@ func StoreCategory(c echo.Context) error {
 func UpdateCategory(c echo.Context) error {
 	CategoryCode 		:= c.FormValue("categoryCode")
 	CategoryName 		:= c.FormValue("categoryName")
-	ModifiedDate 		:= c.FormValue("modifiedDate")
+	ModifiedDate 		:= helpers.BuildTime()
 
-	convModifiedDate, err := time.Parse(layoutFormat, ModifiedDate)
+	convModifiedDate, err := time.Parse(helpers.LayoutFormat(), ModifiedDate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}

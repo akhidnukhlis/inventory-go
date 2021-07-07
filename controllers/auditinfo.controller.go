@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"inventory-go/models"
 	"github.com/labstack/echo"
+	"inventory-go/models"
 	"net/http"
 	"strconv"
 )
@@ -17,7 +17,6 @@ func FetchAllAuditing(c echo.Context) error {
 }
 
 func StoreAuditing(c echo.Context) error {
-	AuditInfoID 		:= c.FormValue("auditInfoID")
 	AuditID 			:= c.FormValue("auditID")
 	GoodsCode 			:= c.FormValue("goodsCode")
 	SysStock 			:= c.FormValue("sysStock")
@@ -25,11 +24,6 @@ func StoreAuditing(c echo.Context) error {
 	Note 				:= c.FormValue("note")
 
 	// convert string to int
-	convAuditInfoID, err := strconv.Atoi(AuditInfoID)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
-	}
-
 	convAuditID, err := strconv.Atoi(AuditID)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
@@ -45,7 +39,7 @@ func StoreAuditing(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	result, err := models.StoreAuditing(convAuditInfoID, convAuditID, GoodsCode, convSysStock, convRealStock, Note)
+	result, err := models.StoreAuditing(convAuditID, GoodsCode, convSysStock, convRealStock, Note)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}

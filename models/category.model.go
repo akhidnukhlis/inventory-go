@@ -1,8 +1,8 @@
 package models
 
 import (
-	"inventory-go/db"
 	validator "github.com/go-playground/validator"
+	"inventory-go/db"
 	"net/http"
 	"time"
 )
@@ -107,7 +107,7 @@ func UpdateCategory(categoryCode string, categoryName string, modifiedDate time.
 
 	con := db.CreateCon()
 
-	sqlStatement := "UPDATE role SET categoryName = ?, modifiedDate = ? WHERE categoryCode = ?"
+	sqlStatement := "UPDATE category SET categoryName = ?, modifiedDate = ? WHERE categoryCode = ?"
 
 	stmt, err := con.Prepare(sqlStatement)
 	if err != nil {

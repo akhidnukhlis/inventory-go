@@ -1,8 +1,9 @@
 package controllers
 
 import (
-	"inventory-go/models"
 	"github.com/labstack/echo"
+	"inventory-go/helpers"
+	"inventory-go/models"
 	"net/http"
 	"time"
 )
@@ -20,9 +21,9 @@ func StoreRole(c echo.Context) error {
 	RoleCode 		:= c.FormValue("roleCode")
 	RoleName 		:= c.FormValue("roleName")
 	RoleDesc 		:= c.FormValue("roleDesc")
-	CreatedDate 	:= c.FormValue("createdDate")
+	CreatedDate 	:= helpers.BuildTime()
 
-	convCreatedDate, err := time.Parse(layoutFormat, CreatedDate)
+	convCreatedDate, err := time.Parse(helpers.LayoutFormat(), CreatedDate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
@@ -39,9 +40,9 @@ func UpdateRole(c echo.Context) error {
 	RoleCode 		:= c.FormValue("roleCode")
 	RoleName 		:= c.FormValue("roleName")
 	RoleDesc 		:= c.FormValue("roleDesc")
-	ModifiedDate 	:= c.FormValue("modifiedDate")
+	ModifiedDate 	:= helpers.BuildTime()
 
-	convModifiedDate, err := time.Parse(layoutFormat, ModifiedDate)
+	convModifiedDate, err := time.Parse(helpers.LayoutFormat(), ModifiedDate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}

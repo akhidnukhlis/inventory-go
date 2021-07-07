@@ -2,17 +2,11 @@ package controllers
 
 import (
 	"fmt"
-	"net/http"
-	"time"
-
 	"github.com/labstack/echo"
+	"inventory-go/helpers"
 	"inventory-go/models"
+	"net/http"
 )
-
-func buildFileName() string {
-	return time.Now().Format("200601021504")
-}
-
 func FetchAllSupplier(c echo.Context) error {
 	result, err := models.FetchAllSupplier()
 	if err != nil {
@@ -23,7 +17,7 @@ func FetchAllSupplier(c echo.Context) error {
 }
 
 func StoreSupplier(c echo.Context) error {
-	SupplierID := fmt.Sprint("SUP", buildFileName())
+	SupplierID := fmt.Sprint("SUP", helpers.BuildFileName())
 	SupplierName := c.FormValue("supplierName")
 
 	result, err := models.StoreSupplier(SupplierID, SupplierName)
