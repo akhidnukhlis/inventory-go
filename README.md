@@ -174,7 +174,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Name - [@akhidnukhlis](https://linkedin.com/akhidnukhlis) - nukhlis@gmail.com.com
+Name - [@akhidnukhlis](https://linkedin.com/akhidnukhlis) - nukhlis@gmail.com
 
 Project Link: [https://github.com/akhidnukhlis/inventory-go](https://github.com/akhidnukhlis/inventory-go)
 
